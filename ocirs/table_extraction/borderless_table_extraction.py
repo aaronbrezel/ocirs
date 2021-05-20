@@ -19,7 +19,7 @@ def get_text_boxes(image, ocr_dataframe):
     OCR_TEXT_CONFIDENCE_THRESHOLD = 0.4 
 
     if ocr_dataframe is None:
-        print("NONE")
+        # print("NONE")
         #If ocr_dataframe is not passed, will have to create the text box dataframe from scratch using pytesseract
         boxes = pytesseract.image_to_data(
             image, 
@@ -29,18 +29,19 @@ def get_text_boxes(image, ocr_dataframe):
         boxes = pd.DataFrame.from_dict(boxes)
     
     else:
-        print("BOXES")
-        boxes = ocr_dataframe
+        # print("BOXES")
+        boxes = ocr_dataframe.copy()
 
     boxes["conf"] = boxes["conf"].apply(lambda x: int(x))
     boxes = boxes[boxes.conf > OCR_TEXT_CONFIDENCE_THRESHOLD]
-    boxes["text"] = boxes["text"].apply(lambda x: x.strip())
+    boxes['text'] = boxes["text"].apply(lambda x: x.strip())
     boxes = boxes[boxes.text != ""]
     boxes.drop(["level", "page_num", "block_num", "par_num", "line_num", "word_num", "conf"], 
         axis=1, 
         inplace=True
     )
     boxes = boxes.reset_index(drop=True)
+
 
     # boxes.to_csv("test.csv")
 

@@ -37,6 +37,18 @@ class NineNinetyPage():
         self.tables = None
 
     @property
+    def image_path(self):
+        '''Getter for self.image_path
+        '''
+        return self._image_path
+    @image_path.setter
+    def image_path(self, value):
+        if not value.is_file():
+            raise FileNotFoundError(f"Image file does not exist at {value}")
+
+        self._image_path = value
+
+    @property
     def data_path(self):
         '''Getter for self.data_path
         '''

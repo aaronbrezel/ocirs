@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 import math
 from ocirs.table_extraction.line_detector.line_detection import line_detection
-import pytesseract
 class LineDetector:
 
     def detect_lines(self, image, text_boxes, line_type=None):

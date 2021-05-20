@@ -112,16 +112,17 @@ import time
 ####################################
 start_time = time.time()
 #Borderless table processing time
-# page_obj = NineNinetyPage("Sarah Scaife Foundation_2014_38.jpg", index=None)
-# page_obj.extract_tables(use_cascadetabnet=False,table_type="borderless",extraction_method="custom")
-# print(page_obj.tables)
-
-#Bordered table processing
-page_obj = NineNinetyPage("test_files/Charles Koch Institute_2013_25_0_bordered.jpg", index=None)
+page_obj = NineNinetyPage("test_files/Sarah Scaife Foundation_2015_36_0_borderless.jpg", index=None)
+page_obj.extract_tables(use_cascadetabnet=False,table_type="borderless",extraction_method="custom")
+print(page_obj.tables)
+# img = cv2.imread("Sarah Scaife Foundation_2015_36_0_borderless.jpg")
+# print(img.shape)
+# Bordered table processing
+# page_obj = NineNinetyPage("test_files/Charles Koch Institute_2013_25_0_bordered.jpg", index=None)
 # page_obj.ocr_dataframe.to_csv("ocr_dataframe.csv", index=False)
-dataframes = page_obj.extract_tables(use_cascadetabnet=False,table_type="bordered",extraction_method="custom")
-print(dataframes[0])
-dataframes[0].to_csv("test_OI.csv", index=False)
+# dataframes = page_obj.extract_tables(use_cascadetabnet=False,table_type="bordered",extraction_method="custom")
+# print(dataframes[0])
+# dataframes[0].to_csv("test_files/test_OI.csv", index=False)
 
 end_time = time.time()
 
