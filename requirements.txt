@@ -1,0 +1,15 @@
+attrs==21.2.0
+fuzzysearch==0.7.3
+fuzzywuzzy==0.18.0
+numpy==1.20.3
+opencv-python==4.5.2.52
+pandas==1.2.4
+pdf2image==1.15.1
+Pillow==8.2.0
+pytesseract==0.3.7
+python-dateutil==2.8.1
+python-Levenshtein==0.12.2
+pytz==2021.1
+scipy==1.6.3
+six==1.16.0
+tqdm==4.60.0
