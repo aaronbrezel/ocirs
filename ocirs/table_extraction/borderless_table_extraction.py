@@ -19,7 +19,7 @@ def get_text_boxes(image, ocr_dataframe):
     OCR_TEXT_CONFIDENCE_THRESHOLD = 0.4 
 
     if ocr_dataframe is None:
-        # print("NONE")
+    
         #If ocr_dataframe is not passed, will have to create the text box dataframe from scratch using pytesseract
         boxes = pytesseract.image_to_data(
             image, 
@@ -29,7 +29,7 @@ def get_text_boxes(image, ocr_dataframe):
         boxes = pd.DataFrame.from_dict(boxes)
     
     else:
-        # print("BOXES")
+ 
         boxes = ocr_dataframe.copy()
 
     boxes["conf"] = boxes["conf"].apply(lambda x: int(x))
@@ -43,7 +43,7 @@ def get_text_boxes(image, ocr_dataframe):
     boxes = boxes.reset_index(drop=True)
 
 
-    # boxes.to_csv("test.csv")
+   
 
     if not boxes.empty:
         boxes["y_middle"] = boxes.apply(lambda row: row.top + int(row.height/2), axis=1)
@@ -105,8 +105,9 @@ def split_columns_on_vert_lines(image, text_boxes):
 
 def text_boxes_to_table(text_boxes):
     text_boxes = aggregate_text_boxes(text_boxes)
-    amount_rows = text_boxes["row"].max() + 1
-    amount_columns = text_boxes["column"].max() + 1
+    amount_rows = int(text_boxes["row"].max()) + 1
+    amount_columns = int(text_boxes["column"].max()) + 1
+    
     data = list()
     for i in range(amount_rows):
         row = list()
@@ -121,8 +122,8 @@ def text_boxes_to_table(text_boxes):
                 row.append(result["text"].iloc[0].strip())
         data.append(row)
     table = pd.DataFrame(data=data[1:], columns=data[0])
-    table = table.dropna(axis=1, how='all')
-    table = table.dropna(axis=0, how='all')
+    # table = table.dropna(axis=1, how='all')
+    # table = table.dropna(axis=0, how='all')
     return table
 
 def aggregate_text_boxes(text_boxes):

@@ -133,4 +133,4 @@ dmypy.json
 .vscode/
 
 #test_output files
-test_ouput/*.csv
+test_output/

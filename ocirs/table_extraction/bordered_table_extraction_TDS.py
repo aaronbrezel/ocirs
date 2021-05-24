@@ -4,9 +4,11 @@ import cv2
 import pytesseract
 
 
-def get_bordered_table(image, ocr_dataframe=None):
+def get_bordered_table_TDS(image, ocr_dataframe=None):
     '''
     NOTE: Still need to figure out how to leverage pre-computed ocr_dataframe
+    Drawn from this Towards Data Science Post
+    https://towardsdatascience.com/a-table-detection-cell-recognition-and-text-extraction-algorithm-to-convert-tables-to-excel-files-902edcf289ec
 
     '''
 
@@ -208,7 +210,7 @@ def get_bordered_table(image, ocr_dataframe=None):
     #Creating a dataframe of the generated OCR list
     arr = np.array(outer)
     dataframe = pd.DataFrame(arr.reshape(len(row), countcol))
-    # dataframe.to_csv("processed_csv.csv", index=False)
+    
 
     return dataframe
 

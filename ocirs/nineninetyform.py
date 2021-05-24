@@ -434,10 +434,10 @@ class NineNinetyForm():
                                                 table_type=table_type,
                                                 extraction_method=extraction_method)
             component_table_dataframes = component_table_dataframes + dataframe_list
-        # print("... Done!")
+        print("... Done!")
 
         if merge:
-            component_table_dataframes = merge_dataframes(component_table_dataframes)
+            component_table_dataframes = [merge_dataframes(component_table_dataframes)] #Brackes around output to maintain list of df output
 
         return component_table_dataframes
 

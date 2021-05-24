@@ -66,10 +66,10 @@ import time
 ###################################
 # Test extracting table from specific NineNinetyPage object using custom extraction
 ###################################
-# page_obj = NineNinetyPage("Charles Koch Institute_2013_25.jpg", index=None)
-# print(page_obj.ocr_dataframe)
-# results = page_obj.extract_tables(use_cascadetabnet=True,table_type="detect",extraction_method="custom")
-# print(results[0].head())
+page_obj = NineNinetyPage("test_files/Charles Koch Institute_2013_25.jpg", index=None)
+print(page_obj.ocr_dataframe)
+results = page_obj.extract_tables(use_cascadetabnet=False,table_type="bordered",extraction_method="custom")
+print(results[0])
 # page_obj = NineNinetyPage("Sarah Scaife Foundation_2014_38.jpg")
 # page_obj.extract_tables(use_cascadetabnet=False,table_type="borderless",extraction_method="custom")
 
@@ -110,20 +110,28 @@ import time
 #####################################
 # Code to test speeding up table extraction process
 ####################################
-start_time = time.time()
+# start_time = time.time()
 #Borderless table processing time
-page_obj = NineNinetyPage("test_files/Sarah Scaife Foundation_2015_36_0_borderless.jpg", index=None)
-page_obj.extract_tables(use_cascadetabnet=False,table_type="borderless",extraction_method="custom")
-print(page_obj.tables)
-# img = cv2.imread("Sarah Scaife Foundation_2015_36_0_borderless.jpg")
-# print(img.shape)
+# page_obj = NineNinetyPage("test_files/Sarah Scaife Foundation_2015_36_0_borderless.jpg", index=None)
+# page_obj.extract_tables(use_cascadetabnet=False,table_type="borderless",extraction_method="custom")
+# print(page_obj.tables)
 # Bordered table processing
 # page_obj = NineNinetyPage("test_files/Charles Koch Institute_2013_25_0_bordered.jpg", index=None)
-# page_obj.ocr_dataframe.to_csv("ocr_dataframe.csv", index=False)
 # dataframes = page_obj.extract_tables(use_cascadetabnet=False,table_type="bordered",extraction_method="custom")
-# print(dataframes[0])
-# dataframes[0].to_csv("test_files/test_OI.csv", index=False)
+# for df in dataframes:
+#     print(df)
+#     df.to_csv("test_output/test_TDS_cropped.csv", index=False)
+# end_time = time.time()
+# print(f"Processing time: {end_time-start_time}")
 
-end_time = time.time()
 
-print(f"Processing time: {end_time-start_time}")
+#####################################
+# Code to table extraction and merging with new OI extraction
+####################################
+# pdf_obj = NineNinetyForm("test_files/short_pdf_sch_i.pdf", "990", "nothing", 1212)
+# pdf_obj.extract_pages()
+# dataframes = pdf_obj.extract_component_tables("SkdIRcpntTbl", merge=True)
+
+# for index,df in enumerate(dataframes):
+#     print(df)
+#     df.to_csv(f"test_{index}.csv", index=False)

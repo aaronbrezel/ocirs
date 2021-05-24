@@ -13,7 +13,7 @@ class LineDetector:
         horiz_lines, vert_lines = self._merge_nearby_lines(horiz_lines, vert_lines)
         # self.show_lines(horiz_lines, vert_lines, image)
         # horiz_lines2, vert_lines2 = line_detection(image_2)
-        # self.show_lines(horiz_lines2, vert_lines2, image_2)
+        # self.show_lines(horiz_lines, vert_lines, image_2) #Uncomment if you want to see the lines detected on the image
         return horiz_lines, vert_lines
 
     def _find_lines(self, image, text_boxes, line_type=None):
@@ -120,30 +120,30 @@ class LineDetector:
         if text_boxes.empty:
             return horiz_lines, vert_lines
         padding_between_words_and_line = 2
-        if len(horiz_lines) > 0:
-            # first horizontal line
-            first_horiz_line = horiz_lines[0]
-            y1_first_horiz_line = first_horiz_line[1]
-            first_row_text_boxes = text_boxes.loc[text_boxes["top"] < y1_first_horiz_line]
-            if not first_row_text_boxes.empty:
-                x1 = first_horiz_line[0]
-                y1 = first_row_text_boxes["top"].min() - padding_between_words_and_line
-                x2 = first_horiz_line[2]
-                y2 = y1
-                new_horiz_line = (x1, y1, x2, y2)
-                horiz_lines.insert(0, new_horiz_line)
+        # if len(horiz_lines) > 0:
+        #     # first horizontal line
+        #     first_horiz_line = horiz_lines[0]
+        #     y1_first_horiz_line = first_horiz_line[1]
+        #     first_row_text_boxes = text_boxes.loc[text_boxes["top"] < y1_first_horiz_line]
+        #     if not first_row_text_boxes.empty:
+        #         x1 = first_horiz_line[0]
+        #         y1 = first_row_text_boxes["top"].min() - padding_between_words_and_line
+        #         x2 = first_horiz_line[2]
+        #         y2 = y1
+        #         new_horiz_line = (x1, y1, x2, y2)
+        #         horiz_lines.insert(0, new_horiz_line)
 
-            # last horizontal line
-            last_horiz_line = horiz_lines[-1]
-            y1_last_horiz_line = last_horiz_line[1]
-            last_row_text_boxes = text_boxes.loc[text_boxes["top"] > y1_last_horiz_line]
-            if not last_row_text_boxes.empty:
-                x1 = last_horiz_line[0]
-                y1 = last_row_text_boxes["y2"].max() + padding_between_words_and_line
-                x2 = last_horiz_line[2]
-                y2 = y1
-                new_horiz_line = (x1, y1, x2, y2)
-                horiz_lines.append(new_horiz_line)
+        #     # last horizontal line
+        #     last_horiz_line = horiz_lines[-1]
+        #     y1_last_horiz_line = last_horiz_line[1]
+        #     last_row_text_boxes = text_boxes.loc[text_boxes["top"] > y1_last_horiz_line]
+        #     if not last_row_text_boxes.empty:
+        #         x1 = last_horiz_line[0]
+        #         y1 = last_row_text_boxes["y2"].max() + padding_between_words_and_line
+        #         x2 = last_horiz_line[2]
+        #         y2 = y1
+        #         new_horiz_line = (x1, y1, x2, y2)
+        #         horiz_lines.append(new_horiz_line)
 
         if len(vert_lines) > 0:
             # first vertical line
@@ -158,7 +158,7 @@ class LineDetector:
                 new_vert_line = (x1, y1, x2, y2)
                 vert_lines.insert(0, new_vert_line)
 
-            # last horizontal line
+            # last vertical line
             last_vert_line = vert_lines[-1]
             x1_last_vert_line = last_vert_line[0]
             last_column_text_boxes = text_boxes.loc[text_boxes["left"] > x1_last_vert_line]
@@ -169,6 +169,7 @@ class LineDetector:
                 y2 = last_vert_line[3]
                 new_vert_line = (x1, y1, x2, y2)
                 vert_lines.append(new_vert_line)
+
         return horiz_lines, vert_lines
 
     def _extend_lines(self, horiz_lines, vert_lines):
