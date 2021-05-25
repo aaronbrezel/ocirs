@@ -134,3 +134,8 @@ dmypy.json
 
 #test_output files
 test_output/
+
+#mmdetection
+ocirs/table_detection/mmdetection
+#cascadetabnet model checkpoint
+ocirs/table_detection/model_checkpoint/epoch_36.pth
