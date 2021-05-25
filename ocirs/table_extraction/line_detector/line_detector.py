@@ -265,4 +265,4 @@ class LineDetector:
                 cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
         # cv2.imshow("image", image)
         # cv2.waitKey()
-        # cv2.imwrite("img_lines.jpg", image)
+        cv2.imwrite("img_lines.jpg", image)
