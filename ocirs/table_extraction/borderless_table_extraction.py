@@ -141,7 +141,7 @@ def aggregate_text_boxes(text_boxes):
         for index, element in df.iterrows():
             text += (" " + element["text"])
         data.append([left, top, width, height, text, row, column])
-    columns = df.columns.values.tolist()
+    # columns = df.columns.values.tolist()
     text_boxes_aggregated = pd.DataFrame(
         data=data,
         columns=["left", "top", "width", "height", "text", "row", "column"]
