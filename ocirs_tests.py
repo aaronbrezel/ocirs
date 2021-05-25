@@ -66,7 +66,7 @@ import time
 ###################################
 # Test extracting table from specific NineNinetyPage object using custom extraction
 ###################################
-page_obj = NineNinetyPage("test_files/Charles Koch Institute_2013_25.jpg", index=None)
+page_obj = NineNinetyPage("test_files/Charles Koch Institute_2013_25_0_bordered.jpg", index=None)
 print(page_obj.ocr_dataframe)
 results = page_obj.extract_tables(use_cascadetabnet=False,table_type="bordered",extraction_method="custom")
 print(results[0])

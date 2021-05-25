@@ -51,11 +51,28 @@ class LineDetector:
         if text_boxes.empty:
             return image
         image_text_boxes_removed = image.copy()
+        # text_boxes.to_csv("test_boxes_local.csv", index=False)
         for index, row in text_boxes.iterrows():
+            
+            #Prevent rectangle mask bounds from extending outside the boundary of image
+            left = row["left"]-2 if row["left"]-2 > 0 else row["left"]
+            top = row['top']-2 if row['top']-2 > 0 else row['top']  
+            right = row['x2']+2 if row['x2']+2 < image_text_boxes_removed.shape[1] else row['x2']
+            bottom = row['y2']+2 if row['y2']+2 < image_text_boxes_removed.shape[0] else row['y2']
+            
+            # Pytesseract occasionally messes up and declares a piece of text thats extends across 
+            # the entire image. 
+            # These two if statements will detect that, and will skip over drawing a rectangle mask
+            # for those erroneous boundaries
+            if right-left == image_text_boxes_removed.shape[1]:
+                continue
+            if bottom-top == image_text_boxes_removed.shape[0]:
+                continue
+
             cv2.rectangle(
                 image_text_boxes_removed, 
-                (row["left"]-2, row["top"]-2), 
-                (row["x2"]+2, row["y2"]+2), 
+                (left, top), 
+                (right, bottom), 
                 (255, 255, 255), -1)
         return image_text_boxes_removed
 
