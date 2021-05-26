@@ -81,8 +81,6 @@ def extract_tables(image, ocr_dataframe=None, use_cascadetabnet=False, table_typ
         if table_tuple[1] == "bordered":
             # dataframe = get_bordered_table_TDS(table_tuple[0], ocr_dataframe)
             dataframe = get_bordered_table_OI(table_tuple[0], ocr_dataframe)
-            print(dataframe)
-            cv2.imwrite("Test.jpg", table_tuple[0])
         elif table_tuple[1] == "borderless":
             dataframe = get_borderless_table(table_tuple[0], ocr_dataframe)
 

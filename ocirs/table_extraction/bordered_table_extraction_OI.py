@@ -11,7 +11,6 @@ def get_bordered_table_OI(image, ocr_dataframe=None):
     text_boxes = get_text_boxes(image, ocr_dataframe)
     line_detector = LineDetector()
     horiz_lines, vert_lines = line_detector.detect_lines(image, text_boxes)
-    # text_boxes.to_csv("text_boxes_uncropped.csv", index=False)
     text_boxes = assign_rows(horiz_lines, text_boxes)
     text_boxes = assign_columns(vert_lines, text_boxes)
     table = text_boxes_to_table(text_boxes)
