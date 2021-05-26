@@ -19,7 +19,6 @@ def get_text_boxes(image, ocr_dataframe):
     OCR_TEXT_CONFIDENCE_THRESHOLD = 0.4 
 
     if ocr_dataframe is None:
-    
         #If ocr_dataframe is not passed, will have to create the text box dataframe from scratch using pytesseract
         boxes = pytesseract.image_to_data(
             image, 

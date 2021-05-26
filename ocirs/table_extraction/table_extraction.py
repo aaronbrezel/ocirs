@@ -43,7 +43,7 @@ def extract_tables(image, ocr_dataframe=None, use_cascadetabnet=False, table_typ
     # First a numpy-array representation of the cropped table image. Second an assertion of whether the table is bordered or borderless
     ###########################
     if use_cascadetabnet: 
-        
+      
         #Throw exception if cascadetabnet is unavailable
         if not exists_cascadetabnet:
             raise Exception("Error establishing CascadeTabNet process. Make sure all relevant dependances are installed, or set `use_cascadetabnet=False`.")
@@ -54,10 +54,15 @@ def extract_tables(image, ocr_dataframe=None, use_cascadetabnet=False, table_typ
         #Then run wrapper function that detects, labels and crops tables from image
         table_list = cascadetabnet_crop_table(model, cv2.cvtColor(preprocessed_image, cv2.COLOR_GRAY2RGB)) #NOTE:Trouble running mmdet on 1-channel greyscale image, making cv2.COLOR_GRAY2RGB necessary
         
+        # IMPORTANT
+        # Wipe the original ocr_dataframe. Since we're croping the image, we'll need new text data 
+        # That new text data will be added via `get_text_boxes()``
+        ocr_dataframe = None
 
         #Iterate through list of returned tuples. Set image back to greyscale. Set table type if user requests
         for index,table_tuple in enumerate(table_list):
-            table_list[index] = (cv2.cvtColor(table_list[index][0], cv2.COLOR_RGB2GRAY), table_type if table_type != "detect" else table_list[index][1]) 
+            table_list[index] = (cv2.cvtColor(table_list[index][0], cv2.COLOR_RGB2GRAY), table_type if table_type != "detect" else table_list[index][1])
+            
 
     ###################
     # Else, just power ahead with the original preprocessed image
@@ -76,6 +81,8 @@ def extract_tables(image, ocr_dataframe=None, use_cascadetabnet=False, table_typ
         if table_tuple[1] == "bordered":
             # dataframe = get_bordered_table_TDS(table_tuple[0], ocr_dataframe)
             dataframe = get_bordered_table_OI(table_tuple[0], ocr_dataframe)
+            print(dataframe)
+            cv2.imwrite("Test.jpg", table_tuple[0])
         elif table_tuple[1] == "borderless":
             dataframe = get_borderless_table(table_tuple[0], ocr_dataframe)
 

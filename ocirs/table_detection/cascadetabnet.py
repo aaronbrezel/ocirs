@@ -125,4 +125,4 @@ if __name__ =="__main__":
     
     table_imgs = cascadetabnet_crop_table(model, image)
 
-    cv2.imwrite("test_output.png",table_imgs[0][0])
+    cv2.imwrite("test_output.jpg",table_imgs[0][0])
