@@ -29,7 +29,11 @@ Adjust process accordingly
 from mmdet.apis import init_detector, inference_detector
 import cv2
 
-
+import os
+from os.path import dirname, realpath
+pwd = dirname(realpath(__file__))
+config_file_path = realpath(os.path.join(pwd, 'config', 'cascade_mask_rcnn_hrnetv2p_w32_20e.py'))
+checkpoint_file_path = realpath(os.path.join(pwd, 'model_checkpoint', 'epoch_36.pth'))
 
 def cascadetabnet_crop_table(model, image):
     '''
@@ -44,7 +48,7 @@ def cascadetabnet_crop_table(model, image):
     return table_imgs
 
 
-def define_model(config_file_path='ocirs/table_detection/config/cascade_mask_rcnn_hrnetv2p_w32_20e.py', checkpoint_file_path='ocirs/table_detection/model_checkpoint/epoch_36.pth'):
+def define_model(config_file_path=config_file_path, checkpoint_file_path=checkpoint_file_path):
   
     model = init_detector(config_file_path, checkpoint_file_path, device='cuda:0')
 
@@ -114,9 +118,11 @@ if __name__ =="__main__":
     
     model = define_model()
 
-    image_path = "ocirs/table_detection/test_image.jpg"
+    image_path = realpath(os.path.join(pwd, 'test_image.jpg'))
+
+    # image_path = "ocirs/table_detection/test_image.jpg"
     image = cv2.imread(image_path)
     
     table_imgs = cascadetabnet_crop_table(model, image)
 
-    cv2.imwrite("test_output.png",table_imgs[0][0])
+    cv2.imwrite("test_output.jpg",table_imgs[0][0])

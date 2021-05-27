@@ -43,7 +43,7 @@ def extract_tables(image, ocr_dataframe=None, use_cascadetabnet=False, table_typ
     # First a numpy-array representation of the cropped table image. Second an assertion of whether the table is bordered or borderless
     ###########################
     if use_cascadetabnet: 
-        
+      
         #Throw exception if cascadetabnet is unavailable
         if not exists_cascadetabnet:
             raise Exception("Error establishing CascadeTabNet process. Make sure all relevant dependances are installed, or set `use_cascadetabnet=False`.")
@@ -54,7 +54,7 @@ def extract_tables(image, ocr_dataframe=None, use_cascadetabnet=False, table_typ
         #Then run wrapper function that detects, labels and crops tables from image
         table_list = cascadetabnet_crop_table(model, cv2.cvtColor(preprocessed_image, cv2.COLOR_GRAY2RGB)) #NOTE:Trouble running mmdet on 1-channel greyscale image, making cv2.COLOR_GRAY2RGB necessary
         
-       if table_list: #If cascadetabenet actually detects a table
+        if table_list: #If cascadetabenet actually detects a table
             # IMPORTANT
             # Wipe the original ocr_dataframe. Since we're croping the image, we'll need new text data 
             # That new text data will be added via `get_text_boxes()``
