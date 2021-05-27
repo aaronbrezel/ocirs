@@ -49,7 +49,7 @@ ocirs' table extraction algorithms perform best when the target images lack extr
 CascadeTabNet is a deep-learning-powered automatic table recognition method that can detect both bordered and borderless tables from images. ocirs uses CascadeTabNet to crop form 990 pages down to just the table, removing the parts of the image can hurt the accuracy of the table extraction process. 
 
 **System requirement notes**
-CascadeTabNet's table detection models were trained using MMDetection v1.2.0. This means they require a CUDA-enabled GPU to function. If you don't have one of those on your local machine, you can try using Google Colab with activated GPU hardware acceleration or cloud-computing instance. This version of MMDetection also requires a version of PyTorch that is not compatible with Python v.3.9. A full list of requirements is [available here](https://mmdetection.readthedocs.io/en/v1.2.0/INSTALL.html#requirements). Additionally, once CascadeTabNet trains its models using a newer version of MMdetection, a [CPU-only setup](https://mmdetection.readthedocs.io/en/latest/get_started.html#install-with-cpu-only) may be possible.
+CascadeTabNet's table detection models were trained using MMDetection v1.2.0. This means they require a CUDA-enabled GPU to function. If you don't have one of those on your local machine, you can try using Google Colab with activated GPU hardware acceleration or cloud-computing instance (see ). This version of MMDetection also requires a version of PyTorch that is not compatible with Python v.3.9. A full list of requirements is [available here](https://mmdetection.readthedocs.io/en/v1.2.0/INSTALL.html#requirements). Additionally, once CascadeTabNet trains its models using a newer version of MMdetection, a [CPU-only setup](https://mmdetection.readthedocs.io/en/latest/get_started.html#install-with-cpu-only) may be possible.
 
 To get CascadeTabNet working, adapt the instructures outlined in the [CascadeTabNet repository](https://github.com/DevashishPrasad/CascadeTabNet/blob/master/README.md#2-setup).
 
@@ -90,7 +90,7 @@ python3 ocirs/table_detection/cascadetabnet.py
 
 This should generate a image `test_output.png`, which will be a cropped version of the `test_image.jpg` located in `table_detection/`.
 
-You're all set! You will now be able to set use_cascadetabnet=True and table_type="detect" on any table extraction method available in ocirs.
+You're all set! You will now be able to set `use_cascadetabnet=True` and `table_type="detect"` on any table extraction method available in ocirs.
 
 Happy extracting!
 
@@ -214,3 +214,33 @@ table_dfs = page_obj.extract_tables(self, use_CascadeTabNet, table_type, extract
 Returned will be a list of dataframes containing tabular data extracted from the page. You can also access this data *after* calling this function with `page_obj.tables`.
 
 When you call `extract_component_tables()` on a NineNinetyForm object, what you are really doing is calling `page_obj.extract_tables()` on a series of page objects. 
+
+
+# Cloud computing setup
+
+If you lack a CUDA-enabled GPU but still want to use CascadeTabNet, you can access one for a reasonable cost with a cloud computing service. 
+
+The below Amazon Web Service EC2 instance configuration is compatible with CascadeTabNet's requirements. 
+
+* Deep Learning AMI (Ubuntu 18.04) Version 43.0
+* p2.xlarge (- ECUs, 4 vCPUs, 2.7 GHz, -, 61 GiB memory, EBS only)
+
+This AWS setup comes with python v3.6.5 pre-installed. It is recommended that you update the Python distribution to 3.8.0 by following the steps outlined on [this webpage](https://tecadmin.net/how-to-install-python-3-9-on-ubuntu-18-04/).
+
+```
+sudo apt update 
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.8
+```
+
+Here are some extra commands to complete your new Python development environment.
+
+```
+sudo apt upgrade 
+alias python3=python3.8
+pip3 install --upgrade pip
+sudo apt-get install python3.8-dev
+sudo apt-get install python3.8-venv
+```
