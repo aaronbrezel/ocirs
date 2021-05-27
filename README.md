@@ -6,7 +6,7 @@ ocris is a Python package for extracting text and tabular data from IRS form 990
 
 It uses a custom configuration of [pytesseract](https://github.com/madmaze/pytesseract) to extract text data. To collect tabular data, it uses a combination of [open-cv](https://opencv.org/), [CascadeTabNet](https://github.com/DevashishPrasad/CascadeTabNet) and methods described in [Open-Intelligence](https://github.com/nazarimilad/open-intelligence-backend) and [Towards Data Science](https://towardsdatascience.com/a-table-detection-cell-recognition-and-text-extraction-algorithm-to-convert-tables-to-excel-files-902edcf289ec).
 
-**This package is a work in progress. The tabular extraction process is imperfect, but will improve and encompass more form components in future iterations.**
+**This package is a work in progress. The tabular extraction process is imperfect, but will improve and encompass more form components in future iterations. DO NOT publish ocirs results without manual review**
 
 ## What are form 990s?
 
@@ -30,19 +30,71 @@ Many organizations file 990s electronically. The IRS makes these available as XM
 
 # ocirs: getting started
 
-*IN PROGRESS* 
+If you want to get started ASAP with ocirs, simply clone this repositiory and install the dependencies from the `requirements.txt` located in the root directory. We recommend doing this inside a Python virtual environment. If you haven't already, you'll also need to download `tesseract-ocr` (for `pytesseract`) and `poppler-utils` (for `pdf2image`) packages to your system and add them to the PATH. 
 
-To get started with ocirs, simply clone this repo into your project 
+```
+git clone https://github.com/aaronbrezel/ocirs.git
+cd ocirs
+pip3 install -r requirements.txt
+sudo apt-get install tesseract-ocr
+sudo apt-get install poppler-utils
+```
 
-[insert process for downloading ocirs and for making sure all dependencies are met, requirements.txt, tesseract in the path]
+That's it! Head to the [ocirs cookbook](https://github.com/aaronbrezel/ocirs#ocirs-cookbook) to start processing 990s. Or, move onto the next section to see how to setup CascadeTabNet table detection and improve your table extraction accuracy. 
 
-ocirs can operate as a stand-alone table extraction package. However, adding CascadeTabNet table detection can significantly improve the overall accuracy of the process. You'll need to perform some additional setup.
+### CascadeTabNet setup
 
-[insert process for setting up CascadeTabNet: mmdetection, download mmdet dependencies, mmdet setup, download CascadeTabNet model checkpoint]
+ocirs' table extraction algorithms perform best when the target images lack extra text and visual artifacts outside the table. This is where [CascadeTabNet](https://github.com/DevashishPrasad/CascadeTabNet/blob/master/README.md) come in. 
+
+CascadeTabNet is a deep-learning-powered automatic table recognition method that can detect both bordered and borderless tables from images. ocirs uses CascadeTabNet to crop form 990 pages down to just the table, removing the parts of the image can hurt the accuracy of the table extraction process. 
+
+**System requirement notes**
+CascadeTabNet's table detection models were trained using MMDetection v1.2.0. This means they require a CUDA-enabled GPU to function. If you don't have one of those on your local machine, you can try using Google Colab with activated GPU hardware acceleration or cloud-computing instance. This version of MMDetection also requires a version of PyTorch that is not compatible with Python v.3.9. A full list of requirements is [available here](https://mmdetection.readthedocs.io/en/v1.2.0/INSTALL.html#requirements). Additionally, once CascadeTabNet trains its models using a newer version of MMdetection, a [CPU-only setup](https://mmdetection.readthedocs.io/en/latest/get_started.html#install-with-cpu-only) may be possible.
+
+To get CascadeTabNet working, adapt the instructures outlined in the [CascadeTabNet repository](https://github.com/DevashishPrasad/CascadeTabNet/blob/master/README.md#2-setup).
+
+First, install some requirements for MMDetection. 
+
+```
+pip3 install torch==1.4.0+cu100 torchvision==0.5.0+cu100 -f https://download.pytorch.org/whl/torch_stable.html
+pip3 install -q mmcv terminaltables
+```
+
+Next, clone the MMDetection v.1.2.0 repo inside the `ocirs/ocirs/table_detection/` directory.
+
+```
+cd ocirs/ocirs/table_detection/
+git clone --branch v1.2.0 'https://github.com/open-mmlab/mmdetection.git'
+```
+
+Then, `cd` into the resulting `mmdetection/` directory and install more necessary dependencies. Then perform more setup.
+
+```
+cd mmdetection
+pip3 install -r "requirements/optional.txt"
+python3 setup.py install
+python3 setup.py develop
+pip3 install -r requirements.txt
+pip3 install pillow==6.2.1 
+pip3 install mmcv==0.4.3
+pip3 install "git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI"
+```
+
+Finally, download the CascadeTabNet model checkpoint from [this Google Drive link](https://drive.google.com/u/0/uc?export=download&confirm=rlLY&id=1-QieHkR1Q7CXuBu4fp3rYrvDG9j26eFT) and place the .pth file in `table_detection/model_checkpoint/`. 
+
+To make sure everything is setup correctly, you can run `cascadetabnet.py` directly.
+
+```
+python3 ocirs/table_detection/cascadetabnet.py
+```
+
+This should generate a image `test_output.png`, which will be a cropped version of the `test_image.jpg` located in `table_detection/`.
+
+You're all set! You will now be able to set use_cascadetabnet=True and table_type="detect" on any table extraction method available in ocirs.
+
+Happy extracting!
 
 # ocirs cookbook
-
-Once you've downloaded ocirs, you're ready to get started. 
 
 There are two classes to familiarize yourself with: `NineNinetyForm` and `NineNinetyPage`. The first is a Python object representing an entire 990 form. The second is an object representing an individual form page. Here is how to use them.
 
