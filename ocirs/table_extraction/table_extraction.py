@@ -54,10 +54,18 @@ def extract_tables(image, ocr_dataframe=None, use_cascadetabnet=False, table_typ
         #Then run wrapper function that detects, labels and crops tables from image
         table_list = cascadetabnet_crop_table(model, cv2.cvtColor(preprocessed_image, cv2.COLOR_GRAY2RGB)) #NOTE:Trouble running mmdet on 1-channel greyscale image, making cv2.COLOR_GRAY2RGB necessary
         
+       if table_list: #If cascadetabenet actually detects a table
+            # IMPORTANT
+            # Wipe the original ocr_dataframe. Since we're croping the image, we'll need new text data 
+            # That new text data will be added via `get_text_boxes()``
+            ocr_dataframe = None
 
-        #Iterate through list of returned tuples. Set image back to greyscale. Set table type if user requests
-        for index,table_tuple in enumerate(table_list):
-            table_list[index] = (cv2.cvtColor(table_list[index][0], cv2.COLOR_RGB2GRAY), table_type if table_type != "detect" else table_list[index][1]) 
+            #Iterate through list of returned tuples. Set image back to greyscale. Set table type if user requests
+            for index,table_tuple in enumerate(table_list):
+                table_list[index] = (cv2.cvtColor(table_list[index][0], cv2.COLOR_RGB2GRAY), table_type if table_type != "detect" else table_list[index][1])
+
+        else: #If no table is detected, just run with the original image
+            table_list = [(preprocessed_image,"borderless" if table_type=='detect' else table_type)]              
 
     ###################
     # Else, just power ahead with the original preprocessed image

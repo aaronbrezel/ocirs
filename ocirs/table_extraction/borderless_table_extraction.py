@@ -16,7 +16,7 @@ def get_borderless_table(image, ocr_dataframe=None):
 
 def get_text_boxes(image, ocr_dataframe):
 
-    OCR_TEXT_CONFIDENCE_THRESHOLD = 0.4 
+    OCR_TEXT_CONFIDENCE_THRESHOLD = 0.6 
 
     if ocr_dataframe is None:
     
@@ -24,7 +24,7 @@ def get_text_boxes(image, ocr_dataframe):
         boxes = pytesseract.image_to_data(
             image, 
             output_type=pytesseract.Output.DICT,
-            config=f"--psm 3"
+            config=f"--oem 3 --psm 1"
         )
         boxes = pd.DataFrame.from_dict(boxes)
     
@@ -42,8 +42,6 @@ def get_text_boxes(image, ocr_dataframe):
     )
     boxes = boxes.reset_index(drop=True)
 
-
-   
 
     if not boxes.empty:
         boxes["y_middle"] = boxes.apply(lambda row: row.top + int(row.height/2), axis=1)
