@@ -97,7 +97,7 @@ def split_columns_on_vert_lines(image, text_boxes):
                     # if textbox is on right side of this line, then
                     # this textbox should be placed one column further (left to right)
                     if row.x2 >= x1:
-                        text_boxes["column"][row.name] = row["column"] + no + 1
+                        text_boxes.loc['column', row.name] = row["column"] + no + 1
     return text_boxes
 
 def text_boxes_to_table(text_boxes):
