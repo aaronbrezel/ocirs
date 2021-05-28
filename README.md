@@ -225,7 +225,7 @@ The below Amazon Web Service EC2 instance configuration is compatible with Casca
 * Deep Learning AMI (Ubuntu 18.04) Version 43.0
 * p2.xlarge (- ECUs, 4 vCPUs, 2.7 GHz, -, 61 GiB memory, EBS only)
 
-This AWS setup comes with python v3.6.5 pre-installed. It is recommended that you update the Python distribution to 3.8.0 by following the steps outlined on [this webpage](https://tecadmin.net/how-to-install-python-3-9-on-ubuntu-18-04/).
+This AWS setup comes with python v3.6.5 pre-installed. It is recommended that you update the Python distribution to 3.8.0 by following the steps outlined on [this webpage](https://tecadmin.net/how-to-install-python-3-9-on-ubuntu-18-04/). Don't go all the way to v3.9 as it is not compatible with MMDetection v1.2.0's required version of PyTorch.
 
 ```
 sudo apt update 
