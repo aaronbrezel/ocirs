@@ -1,31 +1,3 @@
-'''
-This python file is a draft of what the CascadeTabNet table detection and crop
-process should look like. 
-
-The functions and environment are pulled directly from this jupyter notebook:
-https://colab.research.google.com/drive/1EcyTPPWbZrIEJqRcVf61VxjU6pKd3gOX?usp=sharing
-
-There are several environmental dependencies necessary for the below functions to work:
-
-
-!pip install torch==1.4.0+cu100 torchvision==0.5.0+cu100 -f https://download.pytorch.org/whl/torch_stable.html
-!pip install -q mmcv terminaltables
-!git clone --branch v1.2.0 'https://github.com/open-mmlab/mmdetection.git'
-%cd "mmdetection"
-!pip install -r "/content/mmdetection/requirements/optional.txt"
-!python setup.py install
-!python setup.py develop
-!pip install -r {"requirements.txt"}
-!pip install pillow==6.2.1 
-!pip install mmcv==0.4.3
-
-%cd "/content"
-!git clone https://github.com/DevashishPrasad/CascadeTabNet.git
-
-The environmental setup and the functions below will look slightly different on a local machine as opposed to a Google colab file. 
-Adjust process accordingly
-'''
-
 from mmdet.apis import init_detector, inference_detector
 import cv2
 
