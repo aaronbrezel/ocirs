@@ -10,7 +10,7 @@ It uses a custom configuration of [pytesseract](https://github.com/madmaze/pytes
 
 ## What are form 990s?
 
-Form 990s are how most nonprofit organizations report their finances to the U.S. Internal Revenue Service. The IRS makes these disclosures available to the public, providing a unique opertunity to research the finances of tax-exempt organizations from giants like the [American Red Cross](https://projects.propublica.org/nonprofits/display_990/530196605/02_2020_prefixes_52-56%2F530196605_201906_990_2020020717122251) to small private charities like the [Ed Uihlein Family Foundation](https://projects.propublica.org/nonprofits/display_990/205723621/12_2020_prefixes_14-23%2F205723621_201912_990PF_2020120317465674).
+Form 990s are how most nonprofit organizations report their finances to the U.S. Internal Revenue Service. The IRS makes these disclosures available to the public, providing a unique opertunity to research the finances of tax-exempt organizations from giants like the [American Red Cross](https://projects.propublica.org/nonprofits/display_990/530196605/02_2020_prefixes_52-56%2F530196605_201906_990_2020020717122251) to private charities like the [Ed Uihlein Family Foundation](https://projects.propublica.org/nonprofits/display_990/205723621/12_2020_prefixes_14-23%2F205723621_201912_990PF_2020120317465674).
 
 Unfortunately, most form 990s are only available as scanned PDFs. This makes it very difficult to collect and analyze nonprofit data programmatically. ocris aims to fix that. 
 
@@ -225,7 +225,7 @@ The below Amazon Web Service EC2 instance configuration is compatible with Casca
 * Deep Learning AMI (Ubuntu 18.04) Version 43.0
 * p2.xlarge (- ECUs, 4 vCPUs, 2.7 GHz, -, 61 GiB memory, EBS only)
 
-This AWS setup comes with python v3.6.5 pre-installed. It is recommended that you update the Python distribution to 3.8.0 by following the steps outlined on [this webpage](https://tecadmin.net/how-to-install-python-3-9-on-ubuntu-18-04/).
+This AWS setup comes with python v3.6.5 pre-installed. It is recommended that you update the Python distribution to 3.8.0 by following the steps outlined on [this webpage](https://tecadmin.net/how-to-install-python-3-9-on-ubuntu-18-04/). Don't go all the way to v3.9 as it is not compatible with MMDetection v1.2.0's required version of PyTorch.
 
 ```
 sudo apt update 
