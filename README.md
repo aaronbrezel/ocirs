@@ -6,7 +6,7 @@ ocris is a Python package for extracting text and tabular data from IRS form 990
 
 It uses a custom configuration of [pytesseract](https://github.com/madmaze/pytesseract) to extract text data. To collect tabular data, it uses a combination of [open-cv](https://opencv.org/), [CascadeTabNet](https://github.com/DevashishPrasad/CascadeTabNet) and methods described in [Open-Intelligence](https://github.com/nazarimilad/open-intelligence-backend) and [Towards Data Science](https://towardsdatascience.com/a-table-detection-cell-recognition-and-text-extraction-algorithm-to-convert-tables-to-excel-files-902edcf289ec).
 
-**This package is a work in progress. The tabular extraction process is imperfect, but will improve and encompass more form components in future iterations. DO NOT publish ocirs results without manual review**
+**This package is a work in progress. The tabular extraction process is imperfect, but will improve and encompass more form components in future iterations. DO NOT publish ocirs results without manual review.**
 
 ## What are form 990s?
 
